@@ -1,5 +1,5 @@
 model:
-  arch: mini_gpt4
+  arch: proteinchat
   model_type: pretrain_vicuna
 
   # Stage 1

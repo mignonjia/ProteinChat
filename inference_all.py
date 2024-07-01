@@ -10,22 +10,22 @@ import torch.backends.cudnn as cudnn
 import gradio as gr
 from collections import Counter
 
-from minigpt4.common.config import Config
-from minigpt4.common.registry import registry
-from minigpt4.common.dist_utils import get_rank, init_distributed_mode
-from minigpt4.common.conversation import Chat, CONV_VISION
+from proteinchat.common.config import Config
+from proteinchat.common.registry import registry
+from proteinchat.common.dist_utils import get_rank, init_distributed_mode
+from proteinchat.common.conversation import Chat, CONV_VISION
 
-from results.simcse import get_simcse, get_simcse_llm_param
+from eval import get_simcse, get_simcse_llm_param
 import json
 
 # Imports PIL module
 from PIL import Image
 
 # imports modules for registration
-from minigpt4.datasets.builders import *
-from minigpt4.models import *
-from minigpt4.runners import *
-from minigpt4.tasks import *
+from proteinchat.datasets.builders import *
+from proteinchat.models import *
+from proteinchat.runners import *
+from proteinchat.tasks import *
 
 
 
@@ -70,8 +70,6 @@ model_config.device_8bit = args.gpu_id
 model_cls = registry.get_model_class(model_config.arch)
 model = model_cls.from_config(model_config).to('cuda:{}'.format(args.gpu_id))
 
-# vis_processor_cfg = cfg.datasets_cfg.cc_sbu_align.vis_processor.train
-# vis_processor = registry.get_processor_class(vis_processor_cfg.name).from_config(vis_processor_cfg)
 chat = Chat(model, device='cuda:{}'.format(args.gpu_id))
 print('Initialization Finished')
 
@@ -89,9 +87,7 @@ def gradio_reset(chat_state, img_list):
 def upload_protein(seq):
     chat_state = CONV_VISION.copy()
     img_list = []
-    #print(chat_state, img_list)
     protein_emb, llm_message = chat.upload_protein(seq, chat_state, img_list)
-    #print(chat_state, img_list, img_list[0].size())
     return chat_state, img_list, protein_emb
 
 def gradio_ask(user_message, chat_state):
@@ -135,9 +131,6 @@ def eval_ppl():
 
     for item in qa_list:
         predict_list = item['predict_func']
-        # for i in range(len(predict_list)):
-        #     if (predict_list[i][-1] == '.') or (predict_list[i][-1] == ','):
-        #         predict_list[i] = predict_list[i][:-1]
 
         seq = item['seq']
         query = item['query']
@@ -155,10 +148,6 @@ def eval_ppl():
         func_text.append(item)
         print(predict_list)
         print("loss", loss)
-        # print("Uniprot ID:", uniprot_id)
-        # print("Loss:", loss)
-        # print("Correct Function:", function)
-        # print(f"Predicted Function: {llm_message}")
         print('='*80)
     with open("/nfs_beijing_ai/mingjia_2023/proteinchat_glm/results-glm/10-glm-scratch-llama2-kw/confidence/ckpt3_beam4_joint.json", "w") as outfile:
         json.dump(func_text, outfile, indent=4)
@@ -200,11 +189,9 @@ def eval_antimicro():
 def eval_func_text(qa_list, seq):
     start = time.time()
     func_text = []
-    # random_numbers = random.sample(list(range(len(qa_list))), k=NUM_TEST)
     loss_list = []
 
     for item in qa_list:
-        # item = qa_list[random_numbers[i]]
 
         function = item['caption']
         uniprot_id = item['uniprot_id']
@@ -240,13 +227,11 @@ def eval_func_text(qa_list, seq):
 
 def eval_multi_round():
     func_text = []
-    # file_path = "/nfs_beijing_ai/mingjia_2023/data/antimicro/manual_gen_multi_round.json"
-    file_path = "../data/multi_round/sample.json"
+    file_path = "data/multi_round/sample.json"
     qa_list = json.load(open(file_path))
     loss_list = []
 
     for item in qa_list:
-        # item = qa_list[random_numbers[i]]
 
         function = item['correct_func']
         seq = item['seq']
@@ -424,7 +409,6 @@ def tsne_one_seq(function, seq):
 
     for query in query_list:
         user_message = query
-        # protein_embs = model.encode_protein([seq])
         chat_state, img_list, protein_embs = upload_protein(seq)
         print(protein_embs.squeeze().detach().cpu().numpy().shape)
         np.save('/nfs_beijing_ai/mingjia_2023/proteinchat_glm/tsne/protein.npy', protein_embs.squeeze().detach().cpu().numpy())
@@ -433,7 +417,7 @@ def tsne_one_seq(function, seq):
 
         llm_message, chat_state, img_list, loss = gradio_answer(chat_state, img_list, save_embeds=True)
 
-        entry = {"uniprot_id": uniprot_id, "query": query, "correct_func": function, "predict_func": llm_message}
+        entry = {"query": query, "correct_func": function, "predict_func": llm_message}
         func_text.append(entry)
 
         print("Query:", query)
@@ -453,7 +437,6 @@ def tsne_multi_seq(prots):
         if len(seq) > 600:
             seq = seq[:600]
 
-        # protein_embs = model.encode_protein([seq])
         chat_state, img_list, protein_embs = upload_protein(seq)
         protein_embs = torch.mean(protein_embs, 1)
         
@@ -461,7 +444,7 @@ def tsne_multi_seq(prots):
     
     encoding_array = np.array(encoding_array)   
     print(encoding_array.shape)
-    np.save('/nfs_beijing_ai/mingjia_2023/proteinchat_glm/tsne/protein.npy', encoding_array)
+    np.save('tsne/protein.npy', encoding_array)
 
 
 if  __name__ == "__main__":
@@ -469,11 +452,11 @@ if  __name__ == "__main__":
 
     # eval_multi_round()
 
-    # result_dir = "/nfs_beijing_ai/mingjia_2023/proteinchat_glm/results-glm/10-glm-scratch-llama2-kw/ckpt3"
+    # result_dir = "results-glm/10-glm-scratch-llama2-kw/ckpt3"
 
     # for data_dir in ['test']: #'train', 
-    #     seqs = json.load(open(f"/nfs_beijing_ai/mingjia_2023/data/{data_dir}_set/seq.json"))
-    #     qa_list = json.load(open(f"/nfs_beijing_ai/mingjia_2023/data/{data_dir}_set/before_combine/subset/qa_kw.json"))
+    #     seqs = json.load(open(f"data/{data_dir}_set/seq.json"))
+    #     qa_list = json.load(open(f"data/{data_dir}_set/before_combine/subset/qa_kw.json"))
     #     scores = eval_kw(qa_list, seqs)
     #     with open("tmp.json", "w") as outfile:
     #         json.dump(scores, outfile, indent=4)
