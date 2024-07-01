@@ -14,15 +14,15 @@ model:
   max_txt_len: 405
   end_sym: "###"
   low_resource: True
-  peft_ckpt: ''
-  stage1_ckpt: /data1/mingjia/protein/proteinchat_output/esm/20240701000/checkpoint_1.pth # results-glm/10-glm-scratch-llama2-kw
+  peft_ckpt: '' # stage-2 ckpt
+  stage1_ckpt: /data1/mingjia/protein/proteinchat_output/esm/20240701000/checkpoint_1.pth # stage-1 ckpt
 
 datasets:
   seq:
     data_type: protein
     build_info:
       train:
-        storage: /nfs_beijing_ai/mingjia_2023/data/train_set
+        storage: data/train_set
 
 run:
   task: protein_text_pretrain

@@ -2,11 +2,9 @@
 
 This repository holds the code and data of Multi-Modal Large Language Model Enables Protein Function Prediction.
 
-## Paper is available 
-
 ## Examples
 
-![Eg1](fig/example.png) 
+![Eg1](fig/example.pdf) 
 
 
 ## Introduction
@@ -16,7 +14,7 @@ This repository holds the code and data of Multi-Modal Large Language Model Enab
 - To train ProteinChat, we designed (protein, prompt, answer) triples from the functions and keywords from Swiss-Prot dataset, resulting in 462,019 proteins and 1.5 million Q&A pairs.
 
 
-![overview](fig/workflow.png)
+![overview](fig/workflow.pdf)
 
 ## Prepare the Dataset
 
@@ -47,7 +45,7 @@ Verify the installation of `torch` and `torchvision` is successful by running `p
 The current version of ProteinChat is built on Vicuna-13B-v1.5.
 Please download Vicuna weights from [https://huggingface.co/lmsys/vicuna-13b-v1.5](https://huggingface.co/lmsys/vicuna-13b-v1.5).
 Then, set the path to the vicuna weight in the config files 
-[stage-1](configs/proteinchat_stage1.yaml#L15) and [stage-2](configs/proteinchat_stage2.yaml#L15).
+[configs/proteinchat_stage1.yaml](configs/proteinchat_stage1.yaml#L15) and [configs/proteinchat_stage1.yaml](configs/proteinchat_stage2.yaml#L15).
 
 
 ### Training
@@ -73,9 +71,12 @@ bash finetune.sh --cfg-path configs/proteinchat_stage2.yaml
 
 **It takes around 24 GB GPU memory for the inference.**
 
-Find the checkpoint you save in the training process above, which is located under the folder `minigpt4/output/minigpt4_stage2_esm/` by default. Copy it to the folder `ckpt` by running `cp minigpt4/output/minigpt4_stage2_esm/.../checkpoint_xxx.pth`, and modify the `ckpt` entry in [configs/proteinchat_eval.yaml](eval_configs/proteinchat_eval.yaml) to the location of your checkpoint.
+Modify the checkpoint paths in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml) to the location of your checkpoint.
 
-Now we launch the `demo.py` in our original environment. Then, start the demo [demo.sh](demo.sh) on your local machine by running `bash demo.sh`. Then, open the URL created by the demo and try it out!
+Start evaluation on 200 samples in the test set by running 
+```bash
+bash demo.sh
+``` 
 
 
 ## Acknowledgement
