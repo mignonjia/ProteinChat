@@ -1,0 +1,66 @@
+model:
+  arch: mini_gpt4
+  model_type: pretrain_vicuna
+
+  # Stage 1
+  freeze_protein_encoder: False
+  freeze_lp: False
+  freeze_llama: True
+
+  # Stage 2
+  # freeze_protein_encoder: True
+  # freeze_lp: True
+  # freeze_llama: False
+
+  llama_model: "/data1/mingjia/vicuna-13b-v1.5"
+  prompt: ""
+
+  max_txt_len: 405
+  end_sym: "###"
+  low_resource: False
+  embedding_agg: 1
+  peft_ckpt: ''
+  stage1_ckpt: ''
+
+datasets:
+  seq:
+    data_type: protein
+    build_info:
+      train:
+        storage: data/train_set
+
+run:
+  task: protein_text_pretrain
+  # optimizer
+  lr_sched: "linear_warmup_cosine_lr"
+  init_lr: 1e-5
+  min_lr: 1e-6
+  warmup_lr: 1e-6
+  accum_grad_iters: 4
+
+  weight_decay: 0.05
+  max_epoch: 5
+  # max_iters: 10
+  # iters_per_inner_epoch: 2
+  iters_per_epoch: 60000
+  batch_size_train: 2
+  batch_size_eval: 1
+  num_workers: 4
+  warmup_steps: 2000
+
+  seed: 42
+  output_dir: "/data1/mingjia/protein/proteinchat_output/esm"
+
+  amp: True
+  resume_ckpt_path: null
+
+  printable: False # whether all ranks can print (True) or only rank 0 can print (False)
+
+  evaluate: False 
+  train_splits: ["train"]
+
+  device: "cuda"
+  world_size: 1
+  dist_url: "env://"
+  distributed: True
+  use_dist_eval_sampler: False

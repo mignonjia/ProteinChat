@@ -1,0 +1,34 @@
+model:
+  arch: mini_gpt4
+  model_type: pretrain_vicuna
+  freeze_protein_encoder: True
+  freeze_qformer: True
+  freeze_llama: True
+  freeze_lp: True
+
+  llama_model: "/data1/mingjia/vicuna-13b-v1.5"
+  
+  # generation configs
+  prompt: ""
+
+  max_txt_len: 405
+  end_sym: "###"
+  low_resource: True
+  peft_ckpt: ''
+  stage1_ckpt: /data1/mingjia/protein/proteinchat_output/esm/20240701000/checkpoint_1.pth # results-glm/10-glm-scratch-llama2-kw
+
+datasets:
+  seq:
+    data_type: protein
+    build_info:
+      train:
+        storage: /nfs_beijing_ai/mingjia_2023/data/train_set
+
+run:
+  task: protein_text_pretrain
+  device: "cuda"
+  world_size: 1
+  dist_url: "env://"
+  distributed: True
+  printable: True
+
