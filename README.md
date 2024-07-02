@@ -11,7 +11,7 @@ Examples of multi-round dialogues with ProteinChat for Q9U281, Q9XZG9, and Q9LU4
 ## Introduction
 - ProteinChat is a versatile, multi-modal large language model designed to predict protein functions from amino acid sequences.
 - ProteinChat works in a similar way as ChatGPT. Users upload a protein sequence and ask various questions about this protein. ProteinChat will answer these questions in a multi-turn, interactive manner. 
-- The ProteinChat system consists of a protein sequence encoder (based on [xTrimoGLM](https://arxiv.org/abs/2401.06199)), a large language model (LLM), and an adaptor. The protein encoder takes a protein sequence as input and learns a representation for this protein. The adaptor transforms the protein representation produced by the protein encoder  into another  representation that is acceptable to the  LLM. The LLM takes the representation transformed by the adaptor and users' questions about this protein as inputs and generates answers. All these components are trained end-to-end.
+- The ProteinChat system consists of a protein encoder, a large language model (LLM), and an adaptor. The protein encoder takes a protein sequence as input and learns a representation for this protein. The adaptor transforms the protein representation produced by the protein encoder  into another  representation that is acceptable to the  LLM. The LLM takes the representation transformed by the adaptor and users' questions about this protein as inputs and generates answers. All these components are trained end-to-end. We use [esm2_t33_650M_UR50D](https://github.com/facebookresearch/esm) as the protein encoder in this github repo. Note that in our paper, we use [xTrimoPGLM-1B](https://arxiv.org/abs/2401.06199) as the protein encoder, which can give better performance on the prediction tasks.
 - To train ProteinChat, we designed (protein, prompt, answer) triples from the functions and keywords from Swiss-Prot dataset, resulting in 522,966 proteins and 1.5 million Q&A pairs.
 
 ![overview](fig/workflow.png)
@@ -47,13 +47,13 @@ You will obtain a `data` folder with three subfolders `train_set`, `valid_set`, 
 The current version of ProteinChat is built on Vicuna-13B-v1.5.
 Please download Vicuna weights from [https://huggingface.co/lmsys/vicuna-13b-v1.5](https://huggingface.co/lmsys/vicuna-13b-v1.5).
 Then, set the path to the vicuna weight in the config files 
-[configs/proteinchat_stage1.yaml](configs/proteinchat_stage1.yaml#L15) and [configs/proteinchat_stage1.yaml](configs/proteinchat_stage2.yaml#L15).
+[configs/proteinchat_stage1.yaml](configs/proteinchat_stage1.yaml#L15) and [configs/proteinchat_stage2.yaml](configs/proteinchat_stage2.yaml#L15).
 
 
 ### Training
 **You need at least 55 GB GPU memory for the training.** 
 
-The stage-1 training configuration file is [configs/proteinchat_stage1.yaml](configs/proteinchat_stage1.yaml). In addition, you may want to change the number of epochs and other hyper-parameters there, such as `max_epoch`, `init_lr`, `min_lr`,`warmup_steps`, `batch_size_train`. Please adjust `iters_per_epoch` so that `iters_per_epoch` * `batch_size_train` = your training set size. Setting `batch_size_train=1` will require around 55GB memory, and setting `batch_size_train=2` will require around 75GB memory.
+The stage-1 training configuration file is [configs/proteinchat_stage1.yaml](configs/proteinchat_stage1.yaml). In addition, you may want to change the number of epochs and other hyper-parameters there, such as `max_epoch`, `init_lr`, `min_lr`,`warmup_steps`, `batch_size_train`. Please adjust `iters_per_epoch` so that `iters_per_epoch` * `batch_size_train` = your training set size. Setting `batch_size_train=1` will require around 55GB memory, and setting `batch_size_train=2` will require around 78GB memory.
 
 Also, set your desired output directory [here](configs/proteinchat_stage1.yaml#52).
 
@@ -75,7 +75,7 @@ bash finetune.sh --cfg-path configs/proteinchat_stage2.yaml
 
 Modify the checkpoint paths in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml) to the location of your checkpoint.
 
-Start evaluation on 200 samples in the test set by running 
+Evaluate on 10 samples on manual-annotated function, rule-based function, and classification, respectively, by running 
 ```bash
 bash demo.sh
 ``` 
@@ -97,9 +97,9 @@ This repository is under [BSD 3-Clause License](LICENSE.md).
 
 If you're using ProteinChat in your research or applications, please cite using this BibTeX:
 ```bibtex
-@article{guo2023proteinchat,
-  title={ProteinChat: Towards Enabling ChatGPT-Like Capabilities on Protein 3D Structures},
-  author={Guo, Han and Huo, Mingjia and Xie, Pengtao},
-  year={2023}
+@article{huo2023multi,
+  title={Multi-Modal Large Language Model Enables Protein Function Prediction},
+  author={Huo, Mingjia and Guo, Han and Cheng, Xingyi and Rahmani, Hamidreza and Singh, Digvijay and Li, Shen and Gerlof, Philipp and Ideker, Trey and Villa, Elizabeth and Grotjahn, Danielle and Song, Le and Xie, Pengtao},
+  year={2024}
 }
 ```

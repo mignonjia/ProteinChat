@@ -46,7 +46,7 @@ class ProteinChat(Blip2Base):
         
         print('Loading protein encoder')
 
-        self.protein_encoder, alphabet = esm.pretrained.esm1b_t33_650M_UR50S()
+        self.protein_encoder, alphabet = esm.pretrained.esm2_t33_650M_UR50D()
         self.protein_tokenizer = alphabet.get_batch_converter()
 
         if freeze_protein_encoder:

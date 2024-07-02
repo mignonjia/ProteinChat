@@ -177,7 +177,7 @@ def eval_antimicro():
             print(f"Predicted Function: {llm_message}")
             print('='*80)
 
-        simcse_path = "../sup-simcse-roberta-large"
+        simcse_path = "princeton-nlp/sup-simcse-roberta-large"
         scores = get_simcse(simcse_path, func_text)
 
         with open(f"/nfs_beijing_ai/mingjia_2023/data/antimicro/{split}_gen.json", "w") as outfile:
@@ -348,18 +348,16 @@ q_map = {
 
 def eval_kw(qa_list, seqs):
     start = time.time()
-    # print("******************")
-    # qa_file = "/nfs_beijing/kubeflow-user/mingjia_2023/data/valid_set/qa.json"
     
     func_text = []
-    acc_cnt = Counter()
-    sample_cnt = Counter()
 
     for item in qa_list:
         function = item['A']
-        if ',' in function:
+        if ',' in function: 
+            # if the answer contains multiple choices, skip
             continue
-        if item['Q_id'] >= 6:
+        if item['Q_id'] >= 6: 
+            # only evaluate question 0 to 5
             continue
         uniprot_id = item['uniprot_id']
         query = item['Q']
@@ -375,21 +373,9 @@ def eval_kw(qa_list, seqs):
 
         llm_message, chat_state, img_list, loss = gradio_answer(chat_state, img_list)
 
-        sample_cnt[query] += 1
-        if function.strip().lower() in llm_message.strip().lower():
-            acc_cnt[query] += 1
         item['predict_func'] = llm_message
         func_text.append(item)
         print(item)
-
-    acc = []  
-    for key, value in acc_cnt.items():
-        func_text.append({key: [value, sample_cnt[key], value/sample_cnt[key]]})
-        print(func_text[-1])
-        acc.append(value/sample_cnt[key])
-
-    print(sum(acc)/len(acc))
-    func_text.append(sum(acc)/len(acc))
 
     end = time.time()
     print(end - start)
@@ -445,6 +431,13 @@ def tsne_multi_seq(prots):
 
 
 if  __name__ == "__main__":
+    directory_name = "results"
+    if not os.path.exists(directory_name):
+        try:
+            os.mkdir(directory_name)
+        except Exception as e:
+            print(f"An error occurred when creating results folder: {e}")
+
     # eval_ppl()
 
     # eval_multi_round()
@@ -463,22 +456,18 @@ if  __name__ == "__main__":
         seqs = json.load(open(f"data/{data_dir}_set/seq.json"))
 
         for qa_file in ['manual', 'rule']:
-            qa_list = json.load(open(f"data/{data_dir}_set/subset/qa_text_{qa_file}.json"))
-            func_text = eval_func_text(qa_list, seqs)
-
-            # with open(f"results/esm.json", "a") as outfile:
-            #     json.dump(func_text, outfile, indent=4)
-            
-            simcse_path = "../sup-simcse-roberta-large"
             print(data_dir, qa_file)
 
-            scores = get_simcse_llm_param(simcse_path, func_text)
-            get_simcse(simcse_path, func_text)
+            qa_list = json.load(open(f"data/{data_dir}_set/subset/qa_text_{qa_file}.json"))[:10]
+            func_text = eval_func_text(qa_list, seqs)
+            
+            simcse_path = "princeton-nlp/sup-simcse-roberta-large"
+            scores = get_simcse(simcse_path, func_text)
 
             with open("results/esm.json", "a") as outfile:
                 json.dump(scores, outfile, indent=4)
 
-        qa_list = json.load(open(f"data/{data_dir}_set/subset/qa_kw.json"))
+        qa_list = json.load(open(f"data/{data_dir}_set/subset/qa_kw.json"))[:10]
         scores = eval_kw(qa_list, seqs)
         with open("results/esm.json", "a") as outfile:
             json.dump(scores, outfile, indent=4)
