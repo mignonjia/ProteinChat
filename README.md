@@ -25,8 +25,8 @@ Examples of multi-round dialogues with ProteinChat for Q9U281, Q9XZG9, and Q9LU4
 Git clone our repository, creating a python environment and ativate it via the following command
 
 ```bash
-git clone https://github.com/UCSD-AI4H/proteinchat
-cd proteinchat
+git clone https://github.com/mignonjia/ProteinChat.git
+cd ProteinChat
 conda env create -f environment.yml
 conda activate proteinchat
 ```
