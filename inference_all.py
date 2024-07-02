@@ -18,9 +18,6 @@ from proteinchat.common.conversation import Chat, CONV_VISION
 from eval import get_simcse, get_simcse_llm_param
 import json
 
-# Imports PIL module
-from PIL import Image
-
 # imports modules for registration
 from proteinchat.datasets.builders import *
 from proteinchat.models import *
@@ -462,7 +459,7 @@ if  __name__ == "__main__":
     #         json.dump(scores, outfile, indent=4)
 
     # eval func text & kw
-    for data_dir in ['valid']: #'train', 
+    for data_dir in ['test']: #'train', 
         seqs = json.load(open(f"data/{data_dir}_set/seq.json"))
 
         for qa_file in ['manual', 'rule']:

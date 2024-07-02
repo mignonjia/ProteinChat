@@ -45,9 +45,6 @@ class SeqDataset(BaseDataset):
         self.manual = json.load(open(text_manual_path, "r"))
         self.sequence = json.load(open(seq_path, "r"))
 
-        # self.kw = random.sample(self.kw, 100000)
-        # self.rule = random.sample(self.rule, 100000)
-
         self.rate = {'kw':1, 'rule':1, 'manual':4}
         self.len_kw = len(self.kw)
         self.len_rule = len(self.rule)
@@ -56,9 +53,6 @@ class SeqDataset(BaseDataset):
         self.split1 = self.rate['kw'] * self.len_kw 
         self.split2 = self.split1 + self.rate['rule'] * self.len_rule
         self.split3 = self.split2 + self.rate['manual'] * self.len_manual 
-
-        # print(self.len_kw, self.len_rule, self.len_manual)
-        # print(self.split1, self.split2, self.split3)
 
     def __len__(self):
         return self.split3

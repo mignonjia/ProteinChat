@@ -1,6 +1,5 @@
 import argparse
 import time
-from PIL import Image
 
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, LlamaTokenizer
