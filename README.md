@@ -53,7 +53,7 @@ Then, set the path to the vicuna weight in the config files
 ### Training
 **You need at least 55 GB GPU memory for the training.** 
 
-The stage-1 training configuration file is [configs/proteinchat_stage1.yaml](configs/proteinchat_stage1.yaml). In addition, you may want to change the number of epochs and other hyper-parameters there, such as `max_epoch`, `init_lr`, `min_lr`,`warmup_steps`, `batch_size_train`. Please adjust `iters_per_epoch` so that `iters_per_epoch` * `batch_size_train` = your training set size. Setting `batch_size_train=1` will require around 55GB memory, and setting `batch_size_train=2` will require around 78GB memory.
+The stage-1 training configuration file is [configs/proteinchat_stage1.yaml](configs/proteinchat_stage1.yaml). In addition, you may want to change the number of epochs and other hyper-parameters there, such as `max_epoch`, `init_lr`, `min_lr`,`warmup_steps`, `batch_size_train`. Please adjust `iters_per_epoch` so that `iters_per_epoch` * `batch_size_train` = your training set size. 
 
 Also, set your desired output directory [here](configs/proteinchat_stage1.yaml#52).
 
@@ -74,6 +74,7 @@ bash finetune.sh --cfg-path configs/proteinchat_stage2.yaml
 **It takes around 24 GB GPU memory for the inference.**
 
 Modify the checkpoint paths in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml) to the location of your checkpoint.
+We provide a stage1_ckpt [here](https://drive.google.com/file/d/1JSNiZft9TFS5jY5M2R_zQreG3ySP2NpA/view?usp=sharing) by training on 800,000 samples. peft_ckpt can be set empty during evaluation.
 
 Evaluate on 10 samples on manual-annotated function, rule-based function, and classification, respectively, by running 
 ```bash

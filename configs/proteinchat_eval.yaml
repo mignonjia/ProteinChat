@@ -15,7 +15,7 @@ model:
   end_sym: "###"
   low_resource: True
   peft_ckpt: '' # stage-2 ckpt
-  stage1_ckpt: /data1/mingjia/protein/proteinchat_output/esm/20240701234/checkpoint_0.pth # stage-1 ckpt
+  stage1_ckpt: /data1/mingjia/protein/proteinchat_output/esm/20240702230/checkpoint_4.pth # stage-1 ckpt
 
 datasets:
   seq:

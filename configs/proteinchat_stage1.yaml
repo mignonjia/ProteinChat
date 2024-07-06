@@ -42,8 +42,8 @@ run:
   max_epoch: 5
   # max_iters: 10
   # iters_per_inner_epoch: 2
-  iters_per_epoch: 60000
-  batch_size_train: 2
+  iters_per_epoch: 100000
+  batch_size_train: 1
   batch_size_eval: 1
   num_workers: 4
   warmup_steps: 2000
