@@ -94,13 +94,4 @@ bash demo.sh
 ## License
 This repository is under [BSD 3-Clause License](LICENSE.md).
 
-## Citation
 
-If you're using ProteinChat in your research or applications, please cite using this BibTeX:
-```bibtex
-@article{huo2024multi,
-  title={Multi-Modal Large Language Model Enables Protein Function Prediction},
-  author={Huo, Mingjia and Guo, Han and Cheng, Xingyi and Rahmani, Hamidreza and Singh, Digvijay and Li, Shen and Gerlof, Philipp and Ideker, Trey and Villa, Elizabeth and Grotjahn, Danielle and Song, Le and Xie, Pengtao},
-  year={2024}
-}
-```
