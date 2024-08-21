@@ -1,6 +1,7 @@
 # Multi-Modal Large Language Model Enables Protein Function Prediction
 
-This repository holds the code and data of Multi-Modal Large Language Model Enables Protein Function Prediction.
+This repository holds the code and data of [Multi-Modal Large Language Model Enables Protein Function Prediction](https://www.biorxiv.org/content/10.1101/2024.08.19.608729v1).
+
 
 ## Examples
 
@@ -93,5 +94,3 @@ bash demo.sh
 
 ## License
 This repository is under [BSD 3-Clause License](LICENSE.md).
-
-
