@@ -11,8 +11,8 @@ Examples of multi-round dialogues with ProteinChat for Q9U281, Q9XZG9, and Q9LU4
 ## Introduction
 - ProteinChat is a versatile, multi-modal large language model designed to predict protein functions from amino acid sequences.
 - ProteinChat works in a similar way as ChatGPT. Users upload a protein sequence and ask various questions about this protein. ProteinChat will answer these questions in a multi-turn, interactive manner. 
-- The ProteinChat system consists of a protein encoder, a large language model (LLM), and an adaptor. The protein encoder takes a protein sequence as input and learns a representation for this protein. The adaptor transforms the protein representation produced by the protein encoder  into another  representation that is acceptable to the  LLM. The LLM takes the representation transformed by the adaptor and users' questions about this protein as inputs and generates answers. All these components are trained end-to-end. We use [esm2_t33_650M_UR50D](https://github.com/facebookresearch/esm) as the protein encoder in this github repo. Note that in our paper, we use [xTrimoPGLM-1B](https://arxiv.org/abs/2401.06199) as the protein encoder, which can give better performance on the prediction tasks.
-- To train ProteinChat, we designed (protein, prompt, answer) triples from the functions and keywords from Swiss-Prot dataset, resulting in 522,966 proteins and 1.5 million Q&A pairs.
+- The ProteinChat system consists of a protein encoder, a large language model (LLM), and an adaptor. The protein encoder takes a protein sequence as input and learns a representation for this protein. The adaptor transforms the protein representation produced by the protein encoder into another representation that is acceptable to the LLM. The LLM takes the representation transformed by the adaptor and users' questions about this protein as inputs and generates answers. All these components are trained end-to-end. We use [esm2_t33_650M_UR50D](https://github.com/facebookresearch/esm) as the protein encoder in this github repo. Note that in our paper, we use [xTrimoPGLM-1B](https://arxiv.org/abs/2401.06199) as the protein encoder, which can give better performance on the prediction tasks.
+- To train ProteinChat, we designed (protein, prompt, answer) triplets from the functions and keywords from Swiss-Prot dataset, resulting in ~500k proteins and 1.5 million triplets.
 
 ![overview](fig/workflow.png)
 
@@ -74,9 +74,9 @@ bash finetune.sh --cfg-path configs/proteinchat_stage2.yaml
 **It takes around 24 GB GPU memory for the inference.**
 
 Modify the checkpoint paths in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml) to the location of your checkpoint.
-We provide a stage1_ckpt [here](https://drive.google.com/file/d/1JSNiZft9TFS5jY5M2R_zQreG3ySP2NpA/view?usp=sharing) by training on 800,000 samples. peft_ckpt can be set empty during evaluation.
+We provide a stage1_ckpt [here](https://drive.google.com/file/d/1JSNiZft9TFS5jY5M2R_zQreG3ySP2NpA/view?usp=sharing) by training on 800,000 triplets. peft_ckpt can be set empty during evaluation.
 
-Evaluate on 10 samples on manual-annotated function, rule-based function, and classification, respectively, by running 
+Evaluate on 20 samples on free-form function prediction and 10 samples for each specific-category prediction by running 
 ```bash
 bash demo.sh
 ``` 

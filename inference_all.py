@@ -202,7 +202,7 @@ def eval_func_text(qa_list, seq):
         chat_state, img_list, protein_embs = upload_protein(seq)
         chat_state = gradio_ask(user_message, chat_state)
 
-        llm_message, chat_state, img_list, loss = gradio_answer(chat_state, img_list)
+        llm_message, chat_state, img_list, loss = gradio_answer(chat_state, img_list, num_beams=4)
 
         loss_list.append(loss)
         entry = {"seq": seq, "query": query, "correct_func": function, "predict_func": llm_message}
