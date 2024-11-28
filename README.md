@@ -76,6 +76,7 @@ bash finetune.sh --cfg-path configs/proteinchat_stage2.yaml
 
 Modify the checkpoint paths in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml) to the location of your checkpoint.
 We provide a stage1_ckpt [here](https://drive.google.com/file/d/1JSNiZft9TFS5jY5M2R_zQreG3ySP2NpA/view?usp=sharing) by training on 800,000 triplets. peft_ckpt can be set empty during evaluation.
+To evaluate stage-2, [this parameter](configs/proteinchat_eval.yaml#L6) need to be set False.
 
 Evaluate on 20 samples on free-form function prediction and 10 samples for each specific-category prediction by running 
 ```bash
