@@ -32,6 +32,7 @@ class ProteinChat(Blip2Base):
 
     def __init__(
         self,
+        glm_load_path=None,
         freeze_protein_encoder=True,
         freeze_lp = False,
         freeze_llama = True,
@@ -62,8 +63,8 @@ class ProteinChat(Blip2Base):
         else:
             dtype = torch.float
 
-        self.protein_tokenizer  = AutoTokenizer.from_pretrained("/data2/mingjia/proteinglm-1b-mlm", trust_remote_code=True, use_fast=True)
-        self.protein_encoder = AutoModelForMaskedLM.from_pretrained("/data2/mingjia/proteinglm-1b-mlm", rotary_embedding_2d=True, trust_remote_code=True, torch_dtype=dtype, ignore_mismatched_sizes=True)
+        self.protein_tokenizer  = AutoTokenizer.from_pretrained(glm_load_path, trust_remote_code=True, use_fast=True)
+        self.protein_encoder = AutoModelForMaskedLM.from_pretrained(glm_load_path, rotary_embedding_2d=True, trust_remote_code=True, torch_dtype=dtype, ignore_mismatched_sizes=True)
         if torch.cuda.is_available():
             self.protein_encoder = self.protein_encoder.cuda()
 
@@ -236,8 +237,11 @@ class ProteinChat(Blip2Base):
         max_txt_len = cfg.get("max_txt_len", 32)
         end_sym = cfg.get("end_sym", '\n')
         embedding_agg = cfg.get("embedding_agg", 1)
+        glm_load_path = cfg.get("glm_load_path", 1)
+
 
         model = cls(
+            glm_load_path=glm_load_path,
             freeze_protein_encoder=freeze_protein_encoder,
             freeze_llama=freeze_llama,
             freeze_lp=freeze_lp,
@@ -266,9 +270,5 @@ class ProteinChat(Blip2Base):
             print("Load LoRA Checkpoint: {}".format(peft_ckpt))
             ckpt = torch.load(peft_ckpt, map_location="cpu")
             msg = model.load_state_dict(ckpt['model'], strict=False)
-
-        # for name, params in model.protein_encoder.named_parameters():
-        #     print(name, params)
-        # exit()
 
         return model

@@ -2,6 +2,7 @@
 
 This repository holds the code and data of [Multi-Modal Large Language Model Enables Protein Function Prediction](https://www.biorxiv.org/content/10.1101/2024.08.19.608729v1).
 
+* Update on Jan 5, 2025: change protein encoder from ESM to xtrimoPGLM
 
 ## Examples
 
@@ -50,6 +51,20 @@ Please download Vicuna weights from [https://huggingface.co/lmsys/vicuna-13b-v1.
 Then, set the path to the vicuna weight in the config files 
 [configs/proteinchat_stage1.yaml](configs/proteinchat_stage1.yaml#L15) and [configs/proteinchat_stage2.yaml](configs/proteinchat_stage2.yaml#L15).
 
+**4. Prepare the xtrimoPGLM protein encoder**
+
+Download proteinglm-1b-mlm[https://huggingface.co/Bo1015/proteinglm-1b-mlm] to your local machine, and modify code Line715 - Line720 in [modeling_proteinglm.py](https://huggingface.co/Bo1015/proteinglm-1b-mlm/blob/main/modeling_proteinglm.py) to the following:
+```
+        if output_hidden_states:
+            all_hidden_states = all_hidden_states + (hidden_states,)
+
+        # Final layer norm.
+        if self.post_layer_norm:
+            hidden_states = self.final_layernorm(hidden_states)
+```
+
+Then in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml#L18), set `glm_load_path` to your local path of xtrimoPGLM.
+Also, download our trained weights from [Google Drive](https://drive.google.com/file/d/1H-POt4e5Q5fYF59ZwfSdAJyuQiJ2rtJl/view?usp=sharing) and set its path to `stage1_ckpt` in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml#L19).
 
 ### Training
 **You need at least 55 GB GPU memory for the training.** 

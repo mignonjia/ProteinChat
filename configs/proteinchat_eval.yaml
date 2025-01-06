@@ -15,7 +15,8 @@ model:
   end_sym: "###"
   low_resource: True
   peft_ckpt: '' # stage-2 ckpt
-  stage1_ckpt: /data2/mingjia/protein/xtrimopglm/checkpoint_3.pth # glm ckpt
+  glm_load_path: /data2/mingjia/proteinglm-1b-mlm # should replace with your local path of protein GLM model.
+  stage1_ckpt: /data2/mingjia/protein/xtrimopglm/proteinchat_glm.pth # should replace with your local path of glm ckpt
   # /data1/mingjia/protein/proteinchat_output/esm/20240702230/checkpoint_4.pth # esm ckpt
 
 datasets:
