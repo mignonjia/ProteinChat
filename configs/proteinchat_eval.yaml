@@ -6,7 +6,7 @@ model:
   freeze_llama: True
   freeze_lp: True
 
-  llama_model: "/data1/mingjia/vicuna-13b-v1.5"
+  llama_model: "/data2/mingjia/vicuna-13b-v1.5"
   
   # generation configs
   prompt: ""
@@ -15,7 +15,8 @@ model:
   end_sym: "###"
   low_resource: True
   peft_ckpt: '' # stage-2 ckpt
-  stage1_ckpt: /data1/mingjia/protein/proteinchat_output/esm/20240702230/checkpoint_4.pth # stage-1 ckpt
+  stage1_ckpt: /data2/mingjia/protein/xtrimopglm/checkpoint_3.pth # glm ckpt
+  # /data1/mingjia/protein/proteinchat_output/esm/20240702230/checkpoint_4.pth # esm ckpt
 
 datasets:
   seq:

@@ -3,12 +3,13 @@ import os
 import random
 import time
 import math
+######## HF CACHE (LOAD BEFORE HF PACKAGES) ########
+# os.environ['HF_HOME'] = "/data1/mingjia/cache/huggingface"
+# print(f"Current huggingface cache dir: {os.environ['HF_HOME']}")
 
 import numpy as np
 import torch
 import torch.backends.cudnn as cudnn
-import gradio as gr
-from collections import Counter
 
 from proteinchat.common.config import Config
 from proteinchat.common.registry import registry
@@ -91,7 +92,7 @@ def gradio_ask(user_message, chat_state):
     chat.ask(user_message, chat_state)
     return chat_state
 
-def gradio_answer(chat_state, img_list, num_beams=1, temperature=1e-3, top_p = 0.9, save_embeds=False):
+def gradio_answer(chat_state, img_list, num_beams=1, temperature=1e-3, top_p=0.9, save_embeds=False):
     # print(chat_state)
     llm_message, _, loss = chat.answer(conv=chat_state,
                               img_list=img_list,
@@ -209,7 +210,6 @@ def eval_func_text(qa_list, seq):
         func_text.append(entry)
 
         print("Uniprot ID:", uniprot_id)
-        print("Loss:", loss)
         print("Correct Function:", function)
         print(f"Predicted Function: {llm_message}")
         print('='*80)

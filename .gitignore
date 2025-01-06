@@ -5,10 +5,11 @@
 /proteinchat/models/other_models/
 /configs/glm_config.txt
 
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
-*$py.class
+*$py.classxxw
 
 # C extensions
 *.so
