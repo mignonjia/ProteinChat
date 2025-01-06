@@ -53,7 +53,7 @@ Then, set the path to the vicuna weight in the config files
 
 **4. Prepare the xtrimoPGLM protein encoder**
 
-Download proteinglm-1b-mlm[https://huggingface.co/Bo1015/proteinglm-1b-mlm] to your local machine, and modify code Line715 - Line720 in [modeling_proteinglm.py](https://huggingface.co/Bo1015/proteinglm-1b-mlm/blob/main/modeling_proteinglm.py) to the following:
+Download proteinglm-1b-mlm[https://huggingface.co/Bo1015/proteinglm-1b-mlm] to your local machine, and in your downloaded proteinglm folder, modify code Line715 - Line720 of [modeling_proteinglm.py](https://huggingface.co/Bo1015/proteinglm-1b-mlm/blob/main/modeling_proteinglm.py) to the following:
 ```
         if output_hidden_states:
             all_hidden_states = all_hidden_states + (hidden_states,)
@@ -63,8 +63,8 @@ Download proteinglm-1b-mlm[https://huggingface.co/Bo1015/proteinglm-1b-mlm] to y
             hidden_states = self.final_layernorm(hidden_states)
 ```
 
-Then in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml#L18), set `glm_load_path` to your local path of xtrimoPGLM.
-Also, download our trained weights from [Google Drive](https://drive.google.com/file/d/1H-POt4e5Q5fYF59ZwfSdAJyuQiJ2rtJl/view?usp=sharing) and set its path to `stage1_ckpt` in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml#L19).
+Then in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml#L18), set `glm_load_path` to your local path of proteinglm.
+Also, download ProteinChat's trained weights from [Google Drive](https://drive.google.com/file/d/1H-POt4e5Q5fYF59ZwfSdAJyuQiJ2rtJl/view?usp=sharing) and set its path to `stage1_ckpt` in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml#L19).
 
 ### Training
 **You need at least 55 GB GPU memory for the training.** 
