@@ -1,6 +1,9 @@
 /results/
 /data/
 /old/
+/anti_1b_code/
+/proteinchat/models/other_models/
+/configs/glm_config.txt
 
 # Byte-compiled / optimized / DLL files
 __pycache__/

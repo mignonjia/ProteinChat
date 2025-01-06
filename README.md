@@ -75,7 +75,7 @@ bash finetune.sh --cfg-path configs/proteinchat_stage2.yaml
 **It takes around 24 GB GPU memory for the inference.**
 
 Modify the checkpoint paths in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml) to the location of your checkpoint.
-We provide a stage1_ckpt [here](https://drive.google.com/file/d/1JSNiZft9TFS5jY5M2R_zQreG3ySP2NpA/view?usp=sharing) by training on 800,000 triplets. peft_ckpt can be set empty during evaluation.
+We provide a stage1_ckpt [here](https://drive.google.com/file/d/1JSNiZft9TFS5jY5M2R_zQreG3ySP2NpA/view?usp=sharing) by training on 800,000 triplets. 
 
 Evaluate on 20 samples on free-form function prediction and 10 samples for each specific-category prediction by running 
 ```bash
@@ -94,3 +94,15 @@ bash demo.sh
 
 ## License
 This repository is under [BSD 3-Clause License](LICENSE.md).
+
+
+## Citation
+
+If you're using ProteinChat in your research or applications, please cite using this BibTeX:
+```bibtex
+@article{huo2024multi,
+  title={Multi-modal large language model enables protein function prediction},
+  author={Huo, Mingjia and Guo, Han and Cheng, Xingyi and Singh, Digvijay and Rahmani, Hamidreza and Li, Shen and Gerlof, Philipp and Ideker, Trey and Grotjahn, Danielle A and Villa, Elizabeth and Song, Le and Xie, Pengtao},
+  year={2024}
+}
+```

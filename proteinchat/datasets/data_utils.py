@@ -5,20 +5,15 @@
  For full license text, see the LICENSE_Lavis file in the repo root or https://opensource.org/licenses/BSD-3-Clause
 """
 
-import gzip
 import logging
 import os
 import random as rnd
-import tarfile
-import zipfile
 import random
 from typing import List
 from tqdm import tqdm
 
 import decord
-from decord import VideoReader
 import webdataset as wds
-import numpy as np
 import torch
 from torch.utils.data.dataset import IterableDataset
 
