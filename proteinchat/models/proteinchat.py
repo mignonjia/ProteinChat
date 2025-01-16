@@ -260,7 +260,7 @@ class ProteinChat(Blip2Base):
             for key, value in ckpt['model'].items():
                 if 'rotary_emb' in key and 'protein_encoder' in key:
                     val = value
-                    print(value)
+                    # print(value)
             msg = model.load_state_dict(ckpt['model'], strict=False)
             for i in range(model.protein_encoder.config.num_layers):
                 model.protein_encoder.transformer.encoder.layers[0].self_attention.rotary_emb.inv_freq = val
