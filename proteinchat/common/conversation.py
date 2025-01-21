@@ -160,7 +160,7 @@ class Chat:
                 max_new_tokens=max_new_tokens,
                 stopping_criteria=self.stopping_criteria,
                 num_beams=num_beams,
-                do_sample=False,
+                do_sample=True,
                 min_length=min_length,
                 top_p=top_p,
                 repetition_penalty=repetition_penalty,
