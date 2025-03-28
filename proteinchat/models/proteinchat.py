@@ -267,6 +267,19 @@ class ProteinChat(Blip2Base):
         
         peft_ckpt = cfg.get("peft_ckpt", "")  # load weights of LoRA
         if peft_ckpt:
+            lora_target_modules: List[str] = ["q_proj", "v_proj"]
+            config = LoraConfig(
+                r=8,
+                lora_alpha=16,
+                target_modules=lora_target_modules,
+                lora_dropout=0.05,
+                bias="none",
+                task_type="CAUSAL_LM",
+            )
+            # print(self.llama_model.model)
+            model.llama_model = get_peft_model(model.llama_model, config)
+            model.llama_model.eval()
+            
             print("Load LoRA Checkpoint: {}".format(peft_ckpt))
             ckpt = torch.load(peft_ckpt, map_location="cpu")
             msg = model.load_state_dict(ckpt['model'], strict=False)
