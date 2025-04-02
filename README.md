@@ -3,6 +3,7 @@
 This repository holds the code and data of [Multi-Modal Large Language Model Enables Protein Function Prediction](https://www.biorxiv.org/content/10.1101/2024.08.19.608729v1).
 
 * Update on Jan 5, 2025: change protein encoder from ESM to xtrimoPGLM
+* Update on April 2, 2025: upload a new xtrimoPGLM checkpoint to solve the problem of parameter name mismatch.
 
 ## Examples
 
