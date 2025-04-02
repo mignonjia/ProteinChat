@@ -64,7 +64,7 @@ Download proteinglm-1b-mlm[https://huggingface.co/Bo1015/proteinglm-1b-mlm] to y
 ```
 
 Then in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml#L18), set `glm_load_path` to your local path of proteinglm.
-Also, download ProteinChat's trained weights from [Google Drive](https://drive.google.com/file/d/1H-POt4e5Q5fYF59ZwfSdAJyuQiJ2rtJl/view?usp=sharing) and set its path to `stage1_ckpt` in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml#L19).
+Also, download ProteinChat's trained weights from [Google Drive](https://drive.google.com/file/d/1isngFWX5PNKY6fuS8bRVSA9OVUGJODMO/view?usp=sharing) and set its path to `stage1_ckpt` in [configs/proteinchat_eval.yaml](configs/proteinchat_eval.yaml#L19).
 
 ### Training
 **You need at least 55 GB GPU memory for the training.** 
