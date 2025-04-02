@@ -39,7 +39,7 @@ Verify the installation of `torch` and `torchvision` is successful by running `p
 **2. Prepare the dataset**
 
 The dataset contains 462,019 proteins (represented using 3D structures) with 1.5 million instructions. It is curated from the [Swiss-Prot Dataset](https://www.uniprot.org/uniprotkb?query=*&facets=reviewed%3Atrue). 
-The dataset `data.tar.gz` (148 MB) can be downloaded [here](https://drive.google.com/file/d/1n5Ant3S5QE0Yx-DznRa3lannFanc1WB7/view?usp=sharing). Copy it under this folder and run 
+The dataset `data.tar.gz` (170 MB) can be downloaded [here](https://drive.google.com/file/d/1ou2222905sAVljblc1VUH78Q4AQLYRjl/view?usp=sharing). Copy it under this folder and run 
 ```bash
 tar -xvf data.tar.gz
 ```
