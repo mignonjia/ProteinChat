@@ -450,26 +450,34 @@ if  __name__ == "__main__":
     #     scores = eval_kw(qa_list, seqs)
     #     with open("tmp.json", "w") as outfile:
     #         json.dump(scores, outfile, indent=4)
-
-    # eval func text & kw
-    for data_dir in ['test']: #'train', 
-        seqs = json.load(open(f"data/{data_dir}_set/seq.json"))
-
-        for qa_file in ['manual', 'rule']:
-            print(data_dir, qa_file)
-
-            qa_list = json.load(open(f"data/{data_dir}_set/subset/qa_text_{qa_file}.json"))[:10]
-            func_text = eval_func_text(qa_list, seqs)
+    
+    # eval func text
+    seqs = json.load(open(f"data/valid_set/seq.json"))
+    seqs.update(json.load(open(f"data/test_set/seq.json")))
+    seqs.update(json.load(open(f"data/post_03_02_test_set/seq.json")))
+    ids = json.load(open(f"data/post_23_02_350_sampled_cov_40_0_ids.json")) + json.load(open(f"data/pre_23_02_350_sampled_cov_40_0_ids.json"))
+    for qa_file in ['manual']:  
+        qa_list = json.load(open(f"data/test_set/qa_text_{qa_file}.json")) + json.load(open(f"data/post_03_02_test_set/qa_text_{qa_file}.json"))
+        outfile_path = f"output_{qa_file}.json"
+        qa_list = [qa for qa in qa_list if qa['uniprot_id'] in ids]
             
-            simcse_path = "princeton-nlp/sup-simcse-roberta-large"
-            scores = get_simcse(simcse_path, func_text)
-
-            with open("results/esm.json", "a") as outfile:
-                json.dump(scores, outfile, indent=4)
-
-        qa_list = json.load(open(f"data/{data_dir}_set/subset/qa_kw.json"))[:10]
+        func_text = eval_func_text(qa_list, seqs)
+        
+        simcse_path = "princeton-nlp/sup-simcse-roberta-large"
+        scores = get_simcse(simcse_path, func_text)
+        with open(outfile_path, "w") as outfile:
+            json.dump(func_text, outfile, indent=4)
+    
+    # eval  kw
+    seqs = json.load(open(f"data/test_set/seq.json"))
+    for i in [0, 1, 2, 3, 5]:
+        qa_list = json.load(open(f"data/test_set/kw/1000_q_id_{i}.json"))
         scores = eval_kw(qa_list, seqs)
-        with open("results/esm.json", "a") as outfile:
+        with open(f"output_kw_q_id_{i}.json", "w") as outfile:
             json.dump(scores, outfile, indent=4)
+
+
+
+
 
 
